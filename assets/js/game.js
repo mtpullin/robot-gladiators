@@ -4,30 +4,6 @@
 // *defeat each enemy-robot
 //"lose"- plater robot's health is zero or less
 
-var playerInfo = {
-  name: window.prompt("What is your robot's name?"),
-  health: 100,
-  attack: 10,
-  money: 10
-};
-//You can also log multiple calues at once like this//
-console.log(playerInfo.name, playerInfo.health, playerInfo.attack, playerInfo.money);
-
-var enemyInfo = [
-  {
-    name: "Roborto",
-    attack: 12
-  },
-  {
-    name: "Amy Android",
-    attack: 13
-  },
-  {
-    name: "Robot Trumble",
-    attack: 14
-  }
-];
-
 var fight = function(enemy) {
     while (playerInfo.health > 0 && enemy.health > 0) {
       // ask player if they'd like to fight or run
@@ -88,9 +64,7 @@ var fight = function(enemy) {
     //start game function
     var startGame = function() {
       //reset player stats
-      playerInfo.health = 100;
-      playerInfo.attack = 10;
-      playerInfo.money = 10;
+      playerInfo.reset();
 
       for(var i = 0; i < enemyInfo.length; i++) {
         if (playerInfo.health > 0) {
@@ -100,7 +74,7 @@ var fight = function(enemy) {
             
             pickedEnemyObj.health = randomNumber(40, 60);
             
-            fight(pickedEnemyobj);
+            fight(pickedEnemyObj);
             if (playerInfo.health > 0 && i < enemyInfo.length - 1) {
               //ask if player wants to enter the shop
               var storeConfirm = window.confirm("the fight is over, would you like to visit the store?");
@@ -149,31 +123,16 @@ var endGame = function() {
     switch (shopOptionPrompt) {
       case "REFILL":
       case "refill":
-        if (playerInfo.money >= 7) {
-        window.alert("refilling player's health by 20 for 7 dollars.");
-        //increase health and decrease money
-        playerInfo.health = playerInfo.health + 20;
-        playerInfo.money = playerInfo.money - 7;
-        }
-        else {
-          window.alert("You don't have enough money!");
-        }
+        playerInfo.refillHealth();
         break;
+
       case "UPGRADE":
       case "upgrade":
-      if(playerInfo.money >= 7) {    
-      window.alert("upgrading player's attack by 6 for 7 dollars");
-
-        // increase attack and decrease money
-        playerInfo.attack = playerInfo.attack + 6;
-        playerInfo.money = playerInfo.money - 7;
-      }
-      else {
-        window.alert("You don't have enough money!");
-      }
+        playerInfo.upgradeAttack();
         break;
-        case "LEAVE":
-        case "leave":
+        
+      case "LEAVE":
+      case "leave":
           window.alert("Leaving the store.");
           break;
           default:
@@ -188,8 +147,57 @@ var endGame = function() {
       var value = Math.floor(Math.random() * (max - min + 1) + min);
 
       return value;
-    
+    }
+    var playerInfo = {
+      name: window.prompt("What is your robot's name?"),
+      health: 100,
+      attack: 10,
+      money: 10,
+      reset: function() {
+        this.health = 100;
+        this.money = 10;
+        this.attack = 10;
+      },
+      refillHealth: function() {
+        if (this.money >=7) {
+          window.alert("Refilling player's health by 20 for 7 dollars.");
+        this.health += 20;
+        this.money -= 7;
+        }
+        else {
+          window.alert("You don't have enough money!")
+        }
+      },
+      upgradeAttack: function() {
+        if(this.money >= 7) {
+          window.alert("Upgrading player's attack by 6 for 7 dollars.");
+        this.attack += 6;
+        this.money -= 7;
+        }
+        else {
+          window.alert("You don't have enough money!");
+        }
+      }
     };
+    //You can also log multiple calues at once like this//
+    console.log(playerInfo.name, playerInfo.health, playerInfo.attack, playerInfo.money);
+    
+    var enemyInfo = [
+      {
+        name: "Roborto",
+        attack: randomNumber(10, 14)
+      },
+      {
+        name: "Amy Android",
+        attack: randomNumber(10, 14)
+      },
+      {
+        name: "Robot Trumble",
+        attack: randomNumber(10, 14)
+      }
+    ];
+    
+
 
 
 
