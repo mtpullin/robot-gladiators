@@ -35,7 +35,14 @@ promptFight = promptFight.toLocaleLowerCase();
 }
 
 var fight = function(enemy) {
+  //keep track of who goes first
+  var isPlayerTurn = true;
+  
+  if (Math.random() > 0.5) {
+    isPlayerTurn = false;
+  }
     while (playerInfo.health > 0 && enemy.health > 0) {
+      if (isPlayerTurn) {
       if (fightOrSkip()) {
         break;
       }
@@ -57,10 +64,14 @@ var fight = function(enemy) {
         playerInfo.money = playerInfo.money + 20;
   
         // leave while() loop since enemy is dead
-        //break;
+        break;
       } else {
         window.alert(enemy.name + ' still has ' + enemy.health + ' health left.');
       }
+      //player gets attacked first
+    }else {
+      var damage = randomNumber(enemy.attack - 3, enemy.attack);
+    
   
       // remove players's health by subtracting the amount set in the enemyAttack variable
       var damage = randomNumber(enemy.attack - 3, enemy.attack);
@@ -78,6 +89,10 @@ var fight = function(enemy) {
         window.alert(playerInfo.name + ' still has ' + playerInfo.health + ' health left.');
       }
     }
+    //switch turn order
+    isPlayerTurn = !isPlayerTurn;
+  };
+
     //start game function
     var startGame = function() {
       //reset player stats
